@@ -1,9 +1,11 @@
 package controllers;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.Properties;
 import models.Client;
 import models.Prop;
+import models.Todo;
 
 public class TodoController {
 
@@ -22,7 +24,7 @@ public class TodoController {
   public void index() {
     String url = this.host + this.endpoint;
     String res = client.get(url);
-    System.out.println(res); //view(s)-ban kell lennie hivatalosan
+    System.out.println(res);
   }
 
   public void create() {
@@ -32,13 +34,23 @@ public class TodoController {
       "\title\":\"Uj szoveg alkalmazasa\"," +
       "\"completed\": false" +
       "}";
+    System.out.println(body);
     String res = client.post(url, body);
     System.out.println(res);
   }
 
   //github.com/oktat/empclient
 
-  public void update() {}
+  public void update(Todo todo) {
+    String url = this.host + this.endpoint + "/" + todo.getId().toString();
+    Gson gson = new Gson();
+    String body = gson.toJson(todo);
+    System.out.println(body);
+    client.put(url, body);
+  }
 
-  public void delete() {}
+  public void delete(Integer id) {
+    String url = this.host + this.endpoint + "/" + id;
+    client.delete(url);
+  }
 }

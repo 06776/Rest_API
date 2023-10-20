@@ -1,1 +1,5 @@
+bin/
+lib/
+*.class
+*.jar
 jclient.config
